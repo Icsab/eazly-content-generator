@@ -1,0 +1,207 @@
+# Copyright (C) 2026 Oortserv
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Eazly Content Generator 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/eazly-content-generator\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-20T10:56:44+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: eazly-content-generator\n"
+
+#. Plugin Name of the plugin
+#: eazly-content-generator.php
+#: includes/class-content-generator.php:40
+msgid "Eazly Content Generator"
+msgstr ""
+
+#. Description of the plugin
+#: eazly-content-generator.php
+msgid "Generate dummy content for WordPress posts and custom post types"
+msgstr ""
+
+#. Author of the plugin
+#: eazly-content-generator.php
+msgid "Oortserv"
+msgstr ""
+
+#: includes/class-content-generator.php:41
+msgid "Eazly Content"
+msgstr ""
+
+#: includes/class-content-generator.php:122
+msgid "Step 1: Content Settings"
+msgstr ""
+
+#: includes/class-content-generator.php:130
+msgid "Number of Posts"
+msgstr ""
+
+#: includes/class-content-generator.php:140
+msgid "Post Types"
+msgstr ""
+
+#: includes/class-content-generator.php:157
+msgid "Hold Ctrl (or Cmd) to select multiple post types"
+msgstr ""
+
+#: includes/class-content-generator.php:165
+msgid "Title Generation"
+msgstr ""
+
+#: includes/class-content-generator.php:170
+msgid "Sequential (Post1, Post2, ...)"
+msgstr ""
+
+#: includes/class-content-generator.php:173
+msgid "Generic Page Titles"
+msgstr ""
+
+#: includes/class-content-generator.php:175
+msgid "Lorem Ipsum Title"
+msgstr ""
+
+#: includes/class-content-generator.php:184
+msgid "Content Elements"
+msgstr ""
+
+#: includes/class-content-generator.php:190
+msgid "Heading 1"
+msgstr ""
+
+#: includes/class-content-generator.php:191
+msgid "Heading 2"
+msgstr ""
+
+#: includes/class-content-generator.php:192
+msgid "Heading 3"
+msgstr ""
+
+#: includes/class-content-generator.php:193
+msgid "Heading 4"
+msgstr ""
+
+#: includes/class-content-generator.php:194
+msgid "Heading 5"
+msgstr ""
+
+#: includes/class-content-generator.php:195
+msgid "Heading 6"
+msgstr ""
+
+#: includes/class-content-generator.php:196
+msgid "Paragraph"
+msgstr ""
+
+#: includes/class-content-generator.php:197
+msgid "Blockquote"
+msgstr ""
+
+#: includes/class-content-generator.php:198
+msgid "Unordered List"
+msgstr ""
+
+#: includes/class-content-generator.php:199
+msgid "Ordered List"
+msgstr ""
+
+#: includes/class-content-generator.php:200
+msgid "Featured Image"
+msgstr ""
+
+#: includes/class-content-generator.php:201
+msgid "Horizontal Rule"
+msgstr ""
+
+#: includes/class-content-generator.php:213
+msgid "Hold Ctrl (or Cmd) to select multiple elements"
+msgstr ""
+
+#: includes/class-content-generator.php:221
+#: assets/admin.js:79
+msgid "Continue to Step 2"
+msgstr ""
+
+#: includes/class-content-generator.php:227
+msgid "Step 2: Configure Posts"
+msgstr ""
+
+#: includes/class-content-generator.php:242
+#: includes/class-content-generator.php:333
+#: includes/class-content-generator.php:352
+msgid "Permission denied"
+msgstr ""
+
+#: includes/class-content-generator.php:262
+msgid "Post Title"
+msgstr ""
+
+#: includes/class-content-generator.php:263
+msgid "Post Type"
+msgstr ""
+
+#: includes/class-content-generator.php:264
+msgid "Paragraph Count"
+msgstr ""
+
+#: includes/class-content-generator.php:265
+msgid "Status"
+msgstr ""
+
+#: includes/class-content-generator.php:314
+msgid "Back to Step 1"
+msgstr ""
+
+#: includes/class-content-generator.php:316
+#: assets/admin.js:160
+msgid "Generate Posts"
+msgstr ""
+
+#. translators: %d: number of posts created
+#: includes/class-content-generator.php:400
+#, php-format
+msgid "%d post created successfully!"
+msgid_plural "%d posts created successfully!"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-content-generator.php:684
+msgid "Dummy Content"
+msgstr ""
+
+#: assets/admin.js:8
+msgid "Select post types"
+msgstr ""
+
+#: assets/admin.js:14
+msgid "Select content elements"
+msgstr ""
+
+#: assets/admin.js:65
+msgid "Loading..."
+msgstr ""
+
+#: assets/admin.js:76
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: assets/admin.js:121
+msgid "Please resolve title conflicts before generating posts."
+msgstr ""
+
+#: assets/admin.js:134
+msgid "Generating..."
+msgstr ""
+
+#: assets/admin.js:140
+msgid "Created posts:"
+msgstr ""
+
+#: assets/admin.js:157
+msgid "An error occurred while generating posts."
+msgstr ""

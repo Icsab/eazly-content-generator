@@ -1,0 +1,176 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Eazly Content Generator 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/eazly-content-generator\n"
+"Last-Translator: \n"
+"Language-Team: Magyar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-16T08:07:56+01:00\n"
+"PO-Revision-Date: 2026-01-20 10:01+0000\n"
+"Language: hu_HU\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: eazly-content-generator\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.8.1; wp-6.9; php-8.1.10\n"
+
+#. translators: %d: number of posts created
+#: includes/class-content-generator.php:400
+#, php-format
+msgid "%d post created successfully!"
+msgid_plural "%d posts created successfully!"
+msgstr[0] "%d bejegyzés sikeresen létrehozva!"
+msgstr[1] "%d posztok sikeresen létrehozva!"
+
+#: includes/class-content-generator.php:314
+msgid "Back to Step 1"
+msgstr "Vissza"
+
+#: includes/class-content-generator.php:197
+msgid "Blockquote"
+msgstr "Idézet"
+
+#: includes/class-content-generator.php:184
+msgid "Content Elements"
+msgstr "Tartalomblokkok"
+
+#: includes/class-content-generator.php:221
+#: assets/admin.js:79
+msgid "Continue to Step 2"
+msgstr "Tovább"
+
+#: includes/class-content-generator.php:684
+msgid "Dummy Content"
+msgstr "Tölteléktartalom"
+
+#: includes/class-content-generator.php:41
+msgid "Eazly Content"
+msgstr "Eazly Content"
+
+#. Plugin Name of the plugin
+#: eazly-content-generator.php
+#: includes/class-content-generator.php:40
+msgid "Eazly Content Generator"
+msgstr "Eazly Content Generator"
+
+#: includes/class-content-generator.php:200
+msgid "Featured Image"
+msgstr "Kiemelt Kép"
+
+#. Description of the plugin
+#: eazly-content-generator.php
+msgid "Generate dummy content for WordPress posts and custom post types"
+msgstr "Töltelék tartalom  generálása WordPress bejegyzések, valamint egyéni poszt típusok számára"
+
+#: includes/class-content-generator.php:316
+#: assets/admin.js:160
+msgid "Generate Posts"
+msgstr "Bejegyzések létrehozása"
+
+#: includes/class-content-generator.php:173
+msgid "Generic Page Titles"
+msgstr "Általános Oldal Címek"
+
+#: includes/class-content-generator.php:190
+msgid "Heading 1"
+msgstr "Címsor 1"
+
+#: includes/class-content-generator.php:191
+msgid "Heading 2"
+msgstr "Címsor 2"
+
+#: includes/class-content-generator.php:192
+msgid "Heading 3"
+msgstr "Címsor 3"
+
+#: includes/class-content-generator.php:193
+msgid "Heading 4"
+msgstr "Címsor 4"
+
+#: includes/class-content-generator.php:194
+msgid "Heading 5"
+msgstr "Címsor 5"
+
+#: includes/class-content-generator.php:195
+msgid "Heading 6"
+msgstr "Címsor 6"
+
+#: includes/class-content-generator.php:213
+msgid "Hold Ctrl (or Cmd) to select multiple elements"
+msgstr "Tartsa lenyomva a Ctrl (vagy Cmd) több elem kiválasztásához"
+
+#: includes/class-content-generator.php:157
+msgid "Hold Ctrl (or Cmd) to select multiple post types"
+msgstr "Tartsa lenyomva a Ctrl (vagy Cmd) több bejegyzéstipus kiválasztásához"
+
+#: includes/class-content-generator.php:201
+msgid "Horizontal Rule"
+msgstr "Vízszintes Vonal"
+
+#: includes/class-content-generator.php:175
+msgid "Lorem Ipsum Title"
+msgstr "Lorem Ipsum Cím"
+
+#: includes/class-content-generator.php:130
+msgid "Number of Posts"
+msgstr "Bejegyzések száma"
+
+#. Author of the plugin
+#: eazly-content-generator.php
+msgid "Oortserv"
+msgstr "Oortserv"
+
+#: includes/class-content-generator.php:199
+msgid "Ordered List"
+msgstr "Számozott lista"
+
+#: includes/class-content-generator.php:196
+msgid "Paragraph"
+msgstr "Bekezdés"
+
+#: includes/class-content-generator.php:264
+msgid "Paragraph Count"
+msgstr "Bekezdések száma"
+
+#: includes/class-content-generator.php:242
+#: includes/class-content-generator.php:333
+#: includes/class-content-generator.php:352
+msgid "Permission denied"
+msgstr "Hozzáférés megtagadva"
+
+#: includes/class-content-generator.php:262
+msgid "Post Title"
+msgstr "Bejegyzés címe"
+
+#: includes/class-content-generator.php:263
+msgid "Post Type"
+msgstr "Bejegyzés típusa"
+
+#: includes/class-content-generator.php:140
+msgid "Post Types"
+msgstr "Bejegyzés típusok"
+
+#: includes/class-content-generator.php:170
+msgid "Sequential (Post1, Post2, ...)"
+msgstr "Szekvenciális (Post1, Post2, ...)"
+
+#: includes/class-content-generator.php:265
+msgid "Status"
+msgstr "Állapot"
+
+#: includes/class-content-generator.php:122
+msgid "Step 1: Content Settings"
+msgstr "1. Lépés: Általános beállítások"
+
+#: includes/class-content-generator.php:227
+msgid "Step 2: Configure Posts"
+msgstr "2. Lépés: Bejegyzések behangolása"
+
+#: includes/class-content-generator.php:165
+msgid "Title Generation"
+msgstr "Automatikus címgenerálás"
+
+#: includes/class-content-generator.php:198
+msgid "Unordered List"
+msgstr "Felsorolás"
