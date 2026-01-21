@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-20T10:56:44+01:00\n"
+"POT-Creation-Date: 2026-01-21T08:08:54+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: eazly-content-generator\n"
 
 #. Plugin Name of the plugin
 #: eazly-content-generator.php
-#: includes/class-content-generator.php:40
+#: includes/class-content-generator.php:31
 msgid "Eazly Content Generator"
 msgstr ""
 
@@ -30,147 +30,186 @@ msgstr ""
 msgid "Oortserv"
 msgstr ""
 
-#: includes/class-content-generator.php:41
+#: includes/class-content-generator.php:32
 msgid "Eazly Content"
 msgstr ""
 
-#: includes/class-content-generator.php:122
+#: includes/class-content-generator.php:112
 msgid "Step 1: Content Settings"
 msgstr ""
 
-#: includes/class-content-generator.php:130
+#: includes/class-content-generator.php:120
 msgid "Number of Posts"
 msgstr ""
 
-#: includes/class-content-generator.php:140
+#: includes/class-content-generator.php:130
 msgid "Post Types"
 msgstr ""
 
-#: includes/class-content-generator.php:157
+#: includes/class-content-generator.php:147
 msgid "Hold Ctrl (or Cmd) to select multiple post types"
 msgstr ""
 
-#: includes/class-content-generator.php:165
+#: includes/class-content-generator.php:155
 msgid "Title Generation"
 msgstr ""
 
-#: includes/class-content-generator.php:170
+#: includes/class-content-generator.php:160
 msgid "Sequential (Post1, Post2, ...)"
 msgstr ""
 
-#: includes/class-content-generator.php:173
+#: includes/class-content-generator.php:163
 msgid "Generic Page Titles"
 msgstr ""
 
-#: includes/class-content-generator.php:175
+#: includes/class-content-generator.php:165
 msgid "Lorem Ipsum Title"
 msgstr ""
 
-#: includes/class-content-generator.php:184
+#: includes/class-content-generator.php:174
 msgid "Content Elements"
 msgstr ""
 
-#: includes/class-content-generator.php:190
+#: includes/class-content-generator.php:180
 msgid "Heading 1"
 msgstr ""
 
-#: includes/class-content-generator.php:191
+#: includes/class-content-generator.php:181
 msgid "Heading 2"
 msgstr ""
 
-#: includes/class-content-generator.php:192
+#: includes/class-content-generator.php:182
 msgid "Heading 3"
 msgstr ""
 
-#: includes/class-content-generator.php:193
+#: includes/class-content-generator.php:183
 msgid "Heading 4"
 msgstr ""
 
-#: includes/class-content-generator.php:194
+#: includes/class-content-generator.php:184
 msgid "Heading 5"
 msgstr ""
 
-#: includes/class-content-generator.php:195
+#: includes/class-content-generator.php:185
 msgid "Heading 6"
 msgstr ""
 
-#: includes/class-content-generator.php:196
+#: includes/class-content-generator.php:186
 msgid "Paragraph"
 msgstr ""
 
-#: includes/class-content-generator.php:197
+#: includes/class-content-generator.php:187
 msgid "Blockquote"
 msgstr ""
 
-#: includes/class-content-generator.php:198
+#: includes/class-content-generator.php:188
 msgid "Unordered List"
 msgstr ""
 
-#: includes/class-content-generator.php:199
+#: includes/class-content-generator.php:189
 msgid "Ordered List"
 msgstr ""
 
-#: includes/class-content-generator.php:200
+#: includes/class-content-generator.php:190
 msgid "Featured Image"
 msgstr ""
 
-#: includes/class-content-generator.php:201
+#: includes/class-content-generator.php:191
 msgid "Horizontal Rule"
 msgstr ""
 
-#: includes/class-content-generator.php:213
+#: includes/class-content-generator.php:203
 msgid "Hold Ctrl (or Cmd) to select multiple elements"
 msgstr ""
 
-#: includes/class-content-generator.php:221
+#: includes/class-content-generator.php:211
 #: assets/admin.js:79
 msgid "Continue to Step 2"
 msgstr ""
 
-#: includes/class-content-generator.php:227
+#: includes/class-content-generator.php:217
 msgid "Step 2: Configure Posts"
 msgstr ""
 
-#: includes/class-content-generator.php:242
-#: includes/class-content-generator.php:333
-#: includes/class-content-generator.php:352
+#: includes/class-content-generator.php:232
+#: includes/class-content-generator.php:366
 msgid "Permission denied"
 msgstr ""
 
-#: includes/class-content-generator.php:262
+#: includes/class-content-generator.php:251
 msgid "Post Title"
 msgstr ""
 
-#: includes/class-content-generator.php:263
+#: includes/class-content-generator.php:252
 msgid "Post Type"
 msgstr ""
 
-#: includes/class-content-generator.php:264
+#: includes/class-content-generator.php:253
 msgid "Paragraph Count"
 msgstr ""
 
-#: includes/class-content-generator.php:265
+#: includes/class-content-generator.php:254
 msgid "Status"
 msgstr ""
 
-#: includes/class-content-generator.php:314
+#: includes/class-content-generator.php:303
 msgid "Back to Step 1"
 msgstr ""
 
-#: includes/class-content-generator.php:316
+#: includes/class-content-generator.php:305
 #: assets/admin.js:160
 msgid "Generate Posts"
 msgstr ""
 
 #. translators: %d: number of posts created
-#: includes/class-content-generator.php:400
+#: includes/class-content-generator.php:442
 #, php-format
 msgid "%d post created successfully!"
 msgid_plural "%d posts created successfully!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-content-generator.php:684
+#: includes/class-content-generator.php:488
+msgid "Home"
+msgstr ""
+
+#: includes/class-content-generator.php:489
+msgid "About"
+msgstr ""
+
+#: includes/class-content-generator.php:490
+msgid "Services"
+msgstr ""
+
+#: includes/class-content-generator.php:491
+msgid "Contact"
+msgstr ""
+
+#: includes/class-content-generator.php:492
+msgid "Blog"
+msgstr ""
+
+#: includes/class-content-generator.php:493
+msgid "Shop"
+msgstr ""
+
+#: includes/class-content-generator.php:494
+msgid "Products"
+msgstr ""
+
+#: includes/class-content-generator.php:495
+msgid "FAQ"
+msgstr ""
+
+#: includes/class-content-generator.php:496
+msgid "Team"
+msgstr ""
+
+#: includes/class-content-generator.php:497
+msgid "Portfolio"
+msgstr ""
+
+#: includes/class-content-generator.php:745
 msgid "Dummy Content"
 msgstr ""
 

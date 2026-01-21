@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: eazly-content-generator
 Domain Path: /languages
 
-Eazly Content Generator is a WordPress plugin that helps you quickly generate dummy content for posts, pages, and custom post types. Perfect for theme testing, development, and content previews.
+Quickly generate dummy content for posts, pages, and custom post types. Ideal for theme development and testing.
 
 == Description ==
 

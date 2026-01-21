@@ -93,7 +93,7 @@ class Eazly_Lorem_Ipsum_Generator {
 	}
 
 	private static function generate_paragraph() {
-		$sentence_count = rand( 3, 8 );
+		$sentence_count = wp_rand( 3, 8 );
 		$sentences      = array();
 
 		for ( $i = 0; $i < $sentence_count; $i++ ) {
@@ -104,7 +104,7 @@ class Eazly_Lorem_Ipsum_Generator {
 	}
 
 	private static function generate_sentence() {
-		$word_count           = rand( 5, 20 );
+		$word_count           = wp_rand( 5, 20 );
 		$sentence             = array();
 		$last_was_punctuation = false;
 
@@ -113,7 +113,7 @@ class Eazly_Lorem_Ipsum_Generator {
 			$word = self::get_random_word();
 
 			// Occasionally add punctuation (but not if last was punctuation)
-			if ( ! $last_was_punctuation && rand( 1, 5 ) === 1 ) {
+			if ( ! $last_was_punctuation && wp_rand( 1, 5 ) === 1 ) {
 				if ( $i < $word_count - 1 ) {
 					// Mid-sentence punctuation
 					$word                .= self::get_random_mid_sentence_punctuation();
@@ -133,7 +133,7 @@ class Eazly_Lorem_Ipsum_Generator {
 		$sentence[ count( $sentence ) - 1 ] .= self::get_random_sentence_ender();
 
 		// Occasionally wrap in quotes
-		if ( rand( 1, 4 ) === 1 ) {
+		if ( wp_rand( 1, 4 ) === 1 ) {
 			$quotes                              = self::$quote_pairs[ array_rand( self::$quote_pairs ) ];
 			$sentence[0]                         = $quotes[0] . $sentence[0];
 			$sentence[ count( $sentence ) - 1 ] .= $quotes[1];
@@ -153,6 +153,6 @@ class Eazly_Lorem_Ipsum_Generator {
 	private static function get_random_mid_sentence_punctuation() {
 		$punctuation = self::$sentence_modifiers[ array_rand( self::$sentence_modifiers ) ];
 		// 50% chance to add space after
-		return rand( 0, 1 ) ? $punctuation : $punctuation . ' ';
+		return wp_rand( 0, 1 ) ? $punctuation : $punctuation . ' ';
 	}
 }

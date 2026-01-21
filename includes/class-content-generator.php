@@ -1,6 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (! defined('ABSPATH')) {
+    exit;
 }
 
 class Eazly_Content_Generator
@@ -17,19 +17,10 @@ class Eazly_Content_Generator
         add_action('wp_ajax_eazly_load_step_two', array($this, 'ajax_load_step_two'));
         add_action('wp_ajax_eazly_check_title', array($this, 'ajax_check_title'));
         add_action('wp_ajax_eazly_generate_posts', array($this, 'ajax_generate_posts'));
-        add_action('plugins_loaded', array($this, 'load_textdomain'));
 
-        // Add dummy content label to post list
         add_filter('display_post_states', array($this, 'add_eazly_content_label'), 10, 2);
     }
 
-    /**
-     * Load plugin text domain
-     */
-    public function load_textdomain()
-    {
-        load_plugin_textdomain('eazly-content-generator', false, dirname(EAZLY_CONTENT_GENERATOR_PLUGIN_BASENAME) . '/languages');
-    }
 
     /**
      * Add admin menu
@@ -56,13 +47,13 @@ class Eazly_Content_Generator
             return;
         }
 
-        // Enqueue Select2 CSS
         wp_enqueue_style(
             'select2',
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
+            EAZLY_CONTENT_GENERATOR_PLUGIN_URL . 'assets/select2.min.css',
             array(),
             '4.1.0'
         );
+
         wp_enqueue_style(
             'eazly-content-generator-admin',
             EAZLY_CONTENT_GENERATOR_PLUGIN_URL . 'assets/admin.css',
@@ -70,14 +61,14 @@ class Eazly_Content_Generator
             EAZLY_CONTENT_GENERATOR_VERSION
         );
 
-        // Enqueue Select2 JS
         wp_enqueue_script(
             'select2',
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+            EAZLY_CONTENT_GENERATOR_PLUGIN_URL . 'assets/select2.min.js',
             array('jquery', 'wp-i18n'),
             '4.1.0',
             true
         );
+
 
         wp_enqueue_script(
             'eazly-content-generator-admin',
@@ -101,7 +92,6 @@ class Eazly_Content_Generator
             'eazly-content-generator',
             EAZLY_CONTENT_GENERATOR_PLUGIN_DIR . 'languages'
         );
-
     }
 
     /**
@@ -109,7 +99,7 @@ class Eazly_Content_Generator
      */
     public function render_admin_page()
     {
-        ?>
+?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
@@ -228,7 +218,7 @@ class Eazly_Content_Generator
                 <div id="eazly-step-two-content"></div>
             </div>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -241,16 +231,15 @@ class Eazly_Content_Generator
         if (!current_user_can('manage_options')) {
             wp_send_json_error(__('Permission denied', 'eazly-content-generator'));
         }
-
-        $num_posts = absint($_POST['num_posts']);
-        $post_types = array_map('sanitize_key', $_POST['post_types']);
-        $title_generation = sanitize_key($_POST['title_generation']);
-        $content_elements = array_map('sanitize_key', $_POST['content_elements']);
+        $num_posts = isset($_POST['num_posts']) ? absint($_POST['num_posts']) : 5;
+        $post_types = isset($_POST['post_types']) ? array_map('sanitize_key', (array)$_POST['post_types']) : ['post'];
+        $title_generation = isset($_POST['title_generation']) ? sanitize_key($_POST['title_generation']) : '';
+        $content_elements = isset($_POST['content_elements']) ? array_map('sanitize_key', (array)$_POST['content_elements']) : ['h1', 'p'];
 
         $existing_titles = $this->get_all_existing_titles($post_types);
 
         ob_start();
-        ?>
+    ?>
         <form id="eazly-form-step-two">
             <?php wp_nonce_field('eazly_content_nonce', 'eazly_nonce'); ?>
             <input type="hidden" name="title_generation" value="<?php echo esc_attr($title_generation); ?>">
@@ -286,11 +275,11 @@ class Eazly_Content_Generator
                                     unset($all_post_types['attachment']);
                                     foreach ($post_types as $pt):
                                         if (isset($all_post_types[$pt])):
-                                            ?>
+                                    ?>
                                             <option value="<?php echo esc_attr($pt); ?>" <?php selected($pt, $random_post_type); ?>>
                                                 <?php echo esc_html($all_post_types[$pt]->label); ?>
                                             </option>
-                                            <?php
+                                    <?php
                                         endif;
                                     endforeach;
                                     ?>
@@ -316,7 +305,7 @@ class Eazly_Content_Generator
                     class="button button-primary"><?php esc_html_e('Generate Posts', 'eazly-content-generator'); ?></button>
             </p>
         </form>
-        <?php
+<?php
         $html = ob_get_clean();
 
         wp_send_json_success(array('html' => $html));
@@ -333,8 +322,8 @@ class Eazly_Content_Generator
             wp_send_json_error('Unauthorized', 403);
         }
 
-        $title = isset($_POST['title']) ? sanitize_text_field($_POST['title']) : '';
-        $post_type = isset($_POST['post_type']) ? sanitize_text_field($_POST['post_type']) : 'post';
+        $title = isset($_POST['title']) ? sanitize_text_field(wp_unslash($_POST['title'])) : '';
+        $post_type = isset($_POST['post_type']) ? sanitize_text_field(wp_unslash($_POST['post_type'])) : 'post';
 
         if (empty($title)) {
             wp_send_json_success(['available' => false]);
@@ -376,11 +365,34 @@ class Eazly_Content_Generator
         if (!current_user_can('manage_options')) {
             wp_send_json_error(__('Permission denied', 'eazly-content-generator'));
         }
+        $posts = [];
 
-        $posts = $_POST['posts'];
-        $content_elements = array_map('sanitize_key', explode(',', sanitize_text_field($_POST['content_elements'])));
+        if (isset($_POST['posts']) && is_array($_POST['posts'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized individually below.
+            $posts_raw = wp_unslash($_POST['posts']);
 
+            foreach ($posts_raw as $post) {
+
+                if (! is_array($post)) {
+                    continue;
+                }
+
+                $posts[] = [
+                    'title'           => isset($post['title']) ? sanitize_text_field($post['title']) : '',
+                    'post_type'       => isset($post['post_type']) ? sanitize_key($post['post_type']) : '',
+                    'paragraph_count' => isset($post['paragraph_count']) ? absint($post['paragraph_count']) : 0,
+                ];
+            }
+        }
+
+        if (isset($_POST['content_elements'])) {
+            $content_elements_raw = sanitize_text_field(wp_unslash($_POST['content_elements']));
+            $content_elements = array_map('sanitize_key', explode(',', $content_elements_raw));
+        } else {
+            $content_elements = [];
+        }
         $created_posts = array();
+        $errors = array();
 
         foreach ($posts as $post_data) {
             $title = sanitize_text_field($post_data['title']);
@@ -415,6 +427,11 @@ class Eazly_Content_Generator
                     'title' => $title,
                     'url' => get_edit_post_link($post_id, 'raw'),
                 );
+            } else {
+                $errors[] = array(
+                    'title' => $title,
+                    'error' => $post_id->get_error_message(),
+                );
             }
         }
 
@@ -435,18 +452,31 @@ class Eazly_Content_Generator
      */
     private function get_all_existing_titles($post_types)
     {
-        global $wpdb;
+        if (empty($post_types) || ! is_array($post_types)) {
+            return [];
+        }
 
-        $placeholders = implode(',', array_fill(0, count($post_types), '%s'));
+        $post_types = array_map('sanitize_key', $post_types);
 
-        $query = $wpdb->prepare(
-            "SELECT post_title FROM {$wpdb->posts} WHERE post_type IN ($placeholders)",
-            $post_types
-        );
+        $query = new WP_Query([
+            'post_type'      => $post_types,
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+        ]);
 
-        $results = $wpdb->get_col($query);
+        if (empty($query->posts)) {
+            return [];
+        }
 
-        return $results ? $results : array();
+        $titles = [];
+
+        foreach ($query->posts as $post_id) {
+            $titles[] = get_the_title($post_id);
+        }
+
+        return $titles;
     }
 
     /**
@@ -455,16 +485,16 @@ class Eazly_Content_Generator
     private function generate_title($method, $post_type, $existing_titles, $index)
     {
         $generic_titles = array(
-            'Home',
-            'About',
-            'Services',
-            'Contact',
-            'Blog',
-            'Shop',
-            'Products',
-            'FAQ',
-            'Team',
-            'Portfolio',
+            __('Home', 'eazly-content-generator'),
+            __('About', 'eazly-content-generator'),
+            __('Services', 'eazly-content-generator'),
+            __('Contact', 'eazly-content-generator'),
+            __('Blog', 'eazly-content-generator'),
+            __('Shop', 'eazly-content-generator'),
+            __('Products', 'eazly-content-generator'),
+            __('FAQ', 'eazly-content-generator'),
+            __('Team', 'eazly-content-generator'),
+            __('Portfolio', 'eazly-content-generator'),
         );
 
         $lorem_words = array(
@@ -627,17 +657,23 @@ class Eazly_Content_Generator
      */
     private function get_random_image_ids($count)
     {
-        global $wpdb;
+        $count = absint($count);
 
-        $query = $wpdb->prepare(
-            "SELECT ID FROM $wpdb->posts 
-         WHERE post_type = 'attachment' 
-         AND post_mime_type LIKE 'image/%'
-         ORDER BY RAND() LIMIT %d",
-            $count
-        );
+        if ($count <= 0) {
+            return [];
+        }
 
-        return $wpdb->get_col($query) ?: array();
+        $query = new WP_Query([
+            'post_type'      => 'attachment',
+            'post_status'    => 'inherit',
+            'post_mime_type' => 'image',
+            'posts_per_page' => $count,
+            'orderby'        => 'rand',
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+        ]);
+
+        return ! empty($query->posts) ? $query->posts : [];
     }
 
     /**

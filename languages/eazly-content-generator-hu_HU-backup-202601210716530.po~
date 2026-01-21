@@ -9,7 +9,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-01-16T08:07:56+01:00\n"
-"PO-Revision-Date: 2026-01-21 07:16+0000\n"
+"PO-Revision-Date: 2026-01-21 07:11+0000\n"
 "Language: hu_HU\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: eazly-content-generator\n"
@@ -26,15 +26,15 @@ msgstr[1] "%d posztok sikeresen létrehozva!"
 
 #: includes/class-content-generator.php:489
 msgid "About"
-msgstr "Rőlunk"
+msgstr ""
 
 #: assets/admin.js:157
 msgid "An error occurred while generating posts."
-msgstr "Hiba történt a bejegyzések létrehozásakor."
+msgstr ""
 
 #: assets/admin.js:76
 msgid "An error occurred. Please try again."
-msgstr "Hiba történt. Kérjük, próbálja újra."
+msgstr ""
 
 #: includes/class-content-generator.php:303
 msgid "Back to Step 1"
@@ -46,11 +46,11 @@ msgstr "Idézet"
 
 #: includes/class-content-generator.php:492
 msgid "Blog"
-msgstr "Blog"
+msgstr ""
 
 #: includes/class-content-generator.php:491
 msgid "Contact"
-msgstr "Kapcsolat"
+msgstr ""
 
 #: includes/class-content-generator.php:174
 msgid "Content Elements"
@@ -62,7 +62,7 @@ msgstr "Tovább"
 
 #: assets/admin.js:140
 msgid "Created posts:"
-msgstr "Létrehozott bejegyzések:"
+msgstr ""
 
 #: includes/class-content-generator.php:745
 msgid "Dummy Content"
@@ -79,7 +79,7 @@ msgstr "Eazly Content Generator"
 
 #: includes/class-content-generator.php:495
 msgid "FAQ"
-msgstr "Gyakori kérdések"
+msgstr ""
 
 #: includes/class-content-generator.php:190
 msgid "Featured Image"
@@ -98,7 +98,7 @@ msgstr "Bejegyzések létrehozása"
 
 #: assets/admin.js:134
 msgid "Generating..."
-msgstr "Kérem várjon..."
+msgstr ""
 
 #: includes/class-content-generator.php:163
 msgid "Generic Page Titles"
@@ -138,7 +138,7 @@ msgstr "Tartsa lenyomva a Ctrl (vagy Cmd) több bejegyzéstipus kiválasztásáh
 
 #: includes/class-content-generator.php:488
 msgid "Home"
-msgstr "Főoldal"
+msgstr ""
 
 #: includes/class-content-generator.php:191
 msgid "Horizontal Rule"
@@ -146,7 +146,7 @@ msgstr "Vízszintes Vonal"
 
 #: assets/admin.js:65
 msgid "Loading..."
-msgstr "Betöltés..."
+msgstr ""
 
 #: includes/class-content-generator.php:165
 msgid "Lorem Ipsum Title"
@@ -180,11 +180,11 @@ msgstr "Hozzáférés megtagadva"
 
 #: assets/admin.js:121
 msgid "Please resolve title conflicts before generating posts."
-msgstr "Létező címek"
+msgstr ""
 
 #: includes/class-content-generator.php:497
 msgid "Portfolio"
-msgstr "Portfolio"
+msgstr ""
 
 #: includes/class-content-generator.php:251
 msgid "Post Title"
@@ -200,15 +200,15 @@ msgstr "Bejegyzés típusok"
 
 #: includes/class-content-generator.php:494
 msgid "Products"
-msgstr "Termékek"
+msgstr ""
 
 #: assets/admin.js:14
 msgid "Select content elements"
-msgstr "Válasszon egy vagy több elemet"
+msgstr ""
 
 #: assets/admin.js:8
 msgid "Select post types"
-msgstr "Válasszon egy vagy több bejegyzéstípust"
+msgstr ""
 
 #: includes/class-content-generator.php:160
 msgid "Sequential (Post1, Post2, ...)"
@@ -216,11 +216,11 @@ msgstr "Szekvenciális (Post1, Post2, ...)"
 
 #: includes/class-content-generator.php:490
 msgid "Services"
-msgstr "Szolgáltatások"
+msgstr ""
 
 #: includes/class-content-generator.php:493
 msgid "Shop"
-msgstr "Bolt"
+msgstr ""
 
 #: includes/class-content-generator.php:254
 msgid "Status"
@@ -236,7 +236,7 @@ msgstr "2. Lépés: Bejegyzések behangolása"
 
 #: includes/class-content-generator.php:496
 msgid "Team"
-msgstr "Csapat"
+msgstr ""
 
 #: includes/class-content-generator.php:155
 msgid "Title Generation"
