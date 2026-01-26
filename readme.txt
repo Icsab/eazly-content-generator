@@ -1,5 +1,5 @@
 === Eazly Content Generator ===
-Contributors: Oortserv
+Contributors: attila_are
 Tags: dummy content, lorem ipsum, custom post types, content generator
 Requires at least: 6.0
 Tested up to: 6.9
