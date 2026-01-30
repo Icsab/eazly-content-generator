@@ -3,6 +3,10 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+
+use Eazly\Admin\Framework\Admin_Menu;
+
+
 class Eazly_Content_Generator
 {
 
@@ -12,41 +16,33 @@ class Eazly_Content_Generator
      */
     public function __construct()
     {
-        add_action('admin_menu', array($this, 'add_admin_menu'));
+        Admin_Menu::register_plugin([
+            'page_title' => __('Eazly Content Generator', 'eazly-content-generator'),
+            'menu_title' =>  __('Eazly Content', 'eazly-content-generator'),
+            'menu_slug'  => 'eazly-content-generator',
+            'callback'   =>  array($this, 'render_admin_page'),
+        ]);
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+        add_action('wp_ajax_eazly_submit_feature', array($this, 'ajax_submit_feature'));
+
+
         add_action('wp_ajax_eazly_load_step_two', array($this, 'ajax_load_step_two'));
         add_action('wp_ajax_eazly_check_title', array($this, 'ajax_check_title'));
         add_action('wp_ajax_eazly_generate_posts', array($this, 'ajax_generate_posts'));
-
         add_filter('display_post_states', array($this, 'add_eazly_content_label'), 10, 2);
     }
 
-
-    /**
-     * Add admin menu
-     */
-    public function add_admin_menu()
-    {
-        add_menu_page(
-            __('Eazly Content Generator', 'eazly-content-generator'),
-            __('Eazly Content', 'eazly-content-generator'),
-            'manage_options',
-            'eazly-content-generator',
-            array($this, 'render_admin_page'),
-            'dashicons-edit-large',
-            30
-        );
-    }
 
     /**
      * Enqueue admin assets
      */
     public function enqueue_admin_assets($hook)
     {
-        if ('toplevel_page_eazly-content-generator' !== $hook) {
+
+        if ($hook !== 'eazly-plugins_page_eazly-content-generator') {
             return;
         }
-
+        add_thickbox();
         wp_enqueue_style(
             'select2',
             EAZLY_CONTENT_GENERATOR_PLUGIN_URL . 'assets/select2.min.css',
@@ -73,7 +69,7 @@ class Eazly_Content_Generator
         wp_enqueue_script(
             'eazly-content-generator-admin',
             EAZLY_CONTENT_GENERATOR_PLUGIN_URL . 'assets/admin.js',
-            array('jquery', 'wp-i18n', 'select2'),
+            array('jquery', 'wp-i18n', 'select2', 'thickbox'),
             EAZLY_CONTENT_GENERATOR_VERSION,
             true
         );
@@ -99,126 +95,270 @@ class Eazly_Content_Generator
      */
     public function render_admin_page()
     {
+        $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'generate_content';
+
+        $tabs = [
+            'general'          => __('General', 'eazly-content-generator'),
+            'custom_post_types' => __('Custom Post Types', 'eazly-content-generator'),
+            'page_templates'    => __('Page Templates', 'eazly-content-generator'),
+            'generate_content'  => __('Generate Content', 'eazly-content-generator'),
+        ];
 ?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
-            <!-- Notification area for AJAX messages -->
-            <div id="eazly-notification" class="notice" style="display: none;">
-                <p id="eazly-notification-message"></p>
-            </div>
+            <h2 class="nav-tab-wrapper">
+                <?php foreach ($tabs as $slug => $label): ?>
+                    <a href="<?php echo esc_url(add_query_arg('tab', $slug)); ?>"
+                        class="nav-tab <?php echo $current_tab === $slug ? 'nav-tab-active' : ''; ?>">
+                        <?php echo esc_html($label); ?>
+                    </a>
+                <?php endforeach; ?>
+            </h2>
 
-            <div id="eazly-step-one" class="eazly-step">
-                <h2><?php esc_html_e('Step 1: Content Settings', 'eazly-content-generator'); ?></h2>
-                <form id="eazly-form-step-one">
-                    <?php wp_nonce_field('eazly_content_nonce', 'eazly_nonce'); ?>
+            <div class="tab-content">
+                <?php
+                switch ($current_tab) {
+                    case 'general':
+                        $this->render_tab_general();
+                        break;
 
-                    <table class="form-table">
-                        <tr>
-                            <th scope="row">
-                                <label
-                                    for="num_posts"><?php esc_html_e('Number of Posts', 'eazly-content-generator'); ?></label>
-                            </th>
-                            <td>
-                                <input type="number" id="num_posts" name="num_posts" value="3" min="1" max="100"
-                                    class="small-text" required>
-                            </td>
-                        </tr>
+                    case 'custom_post_types':
+                        $this->render_tab_custom_post_types();
+                        break;
 
-                        <tr>
-                            <th scope="row">
-                                <label for="post_types"><?php esc_html_e('Post Types', 'eazly-content-generator'); ?></label>
-                            </th>
-                            <td>
-                                <select id="post_types" name="post_types[]" multiple size="5" required>
-                                    <?php
-                                    $post_types = get_post_types(array('public' => true), 'objects');
-                                    unset($post_types['attachment']);
-                                    foreach ($post_types as $post_type) {
-                                        printf(
-                                            '<option value="%s">%s</option>',
-                                            esc_attr($post_type->name),
-                                            esc_html($post_type->label)
-                                        );
-                                    }
-                                    ?>
-                                </select>
-                                <p class="description">
-                                    <?php esc_html_e('Hold Ctrl (or Cmd) to select multiple post types', 'eazly-content-generator'); ?>
-                                </p>
-                            </td>
-                        </tr>
+                    case 'page_templates':
+                        $this->render_tab_page_templates();
+                        break;
 
-                        <tr>
-                            <th scope="row">
-                                <label
-                                    for="title_generation"><?php esc_html_e('Title Generation', 'eazly-content-generator'); ?></label>
-                            </th>
-                            <td>
-                                <select id="title_generation" name="title_generation" required>
-                                    <option value="sequential">
-                                        <?php esc_html_e('Sequential (Post1, Post2, ...)', 'eazly-content-generator'); ?>
-                                    </option>
-                                    <option value="generic">
-                                        <?php esc_html_e('Generic Page Titles', 'eazly-content-generator'); ?>
-                                    </option>
-                                    <option value="lorem"><?php esc_html_e('Lorem Ipsum Title', 'eazly-content-generator'); ?>
-                                    </option>
-                                </select>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <th scope="row">
-                                <label
-                                    for="content_elements"><?php esc_html_e('Content Elements', 'eazly-content-generator'); ?></label>
-                            </th>
-                            <td>
-                                <select id="content_elements" name="content_elements[]" multiple size="12" required>
-                                    <?php
-                                    $html_tags = array(
-                                        'h1' => __('Heading 1', 'eazly-content-generator'),
-                                        'h2' => __('Heading 2', 'eazly-content-generator'),
-                                        'h3' => __('Heading 3', 'eazly-content-generator'),
-                                        'h4' => __('Heading 4', 'eazly-content-generator'),
-                                        'h5' => __('Heading 5', 'eazly-content-generator'),
-                                        'h6' => __('Heading 6', 'eazly-content-generator'),
-                                        'p' => __('Paragraph', 'eazly-content-generator'),
-                                        'blockquote' => __('Blockquote', 'eazly-content-generator'),
-                                        'ul' => __('Unordered List', 'eazly-content-generator'),
-                                        'ol' => __('Ordered List', 'eazly-content-generator'),
-                                        'img' => __('Featured Image', 'eazly-content-generator'),
-                                        'hr' => __('Horizontal Rule', 'eazly-content-generator'),
-                                    );
-                                    foreach ($html_tags as $tag => $label) {
-                                        printf(
-                                            '<option value="%s">%s</option>',
-                                            esc_attr($tag),
-                                            esc_html($label)
-                                        );
-                                    }
-                                    ?>
-                                </select>
-                                <p class="description">
-                                    <?php esc_html_e('Hold Ctrl (or Cmd) to select multiple elements', 'eazly-content-generator'); ?>
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <p class="submit">
-                        <button type="submit"
-                            class="button button-primary"><?php esc_html_e('Continue to Step 2', 'eazly-content-generator'); ?></button>
-                    </p>
-                </form>
-            </div>
-
-            <div id="eazly-step-two" class="eazly-step" style="display: none;">
-                <h2><?php esc_html_e('Step 2: Configure Posts', 'eazly-content-generator'); ?></h2>
-                <div id="eazly-step-two-content"></div>
+                    case 'generate_content':
+                    default:
+                        $this->render_tab_generate_content();
+                        break;
+                }
+                ?>
             </div>
         </div>
     <?php
+    }
+
+    protected function render_tab_general()
+    {
+    ?>
+        <h2><?php esc_html_e('General Settings', 'eazly-content-generator'); ?></h2>
+
+
+        <div class="eazly-feature-request">
+            <h2><?php esc_html_e('Request a Feature', 'eazly-content-generator'); ?></h2>
+            <p><?php esc_html_e('Do you have an idea to improve this plugin? Let us know!', 'eazly-content-generator'); ?></p>
+
+            <a href="#TB_inline?width=600&height=400&inlineId=eazly-feature-form"
+                class="button button-secondary thickbox">
+                <?php esc_html_e('Submit Feature Request', 'eazly-content-generator'); ?>
+            </a>
+        </div>
+
+        <!-- Hidden form for ThickBox -->
+        <div id="eazly-feature-form" style="display:none;">
+            <form id="eazly-feature-request-form">
+                <?php wp_nonce_field('eazly_content_nonce', 'eazly_nonce'); ?>
+
+                <table class="form-table">
+                    <tr>
+                        <th><label for="feature_name"><?php esc_html_e('Feature Name', 'eazly-content-generator'); ?></label></th>
+                        <td><input type="text" id="feature_name" name="feature_name" required class="regular-text"></td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="feature_description"><?php esc_html_e('Description', 'eazly-content-generator'); ?></label></th>
+                        <td><textarea id="feature_description" name="feature_description" rows="5" class="large-text" required></textarea></td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="user_email"><?php esc_html_e('Email (optional)', 'eazly-content-generator'); ?></label></th>
+                        <td><input type="email" id="user_email" name="user_email" class="regular-text"></td>
+                    </tr>
+                </table>
+
+                <p class="submit">
+                    <button type="submit" class="button button-primary">
+                        <?php esc_html_e('Submit Feature Request', 'eazly-content-generator'); ?>
+                    </button>
+                </p>
+
+                <div id="eazly-feature-notice" style="display:none;"></div>
+            </form>
+        </div>
+
+    <?php
+    }
+    protected function render_tab_custom_post_types()
+    {
+    ?>
+        <h2><?php esc_html_e('Custom Post Types', 'eazly-content-generator'); ?></h2>
+
+        <div class="eazly-tab-coming-soon">
+            <p><?php esc_html_e('Coming soon! You’ll be able to manage Custom Post Types here in a future release.', 'eazly-content-generator'); ?></p>
+        </div>
+    <?php
+    }
+    protected function render_tab_page_templates()
+    {
+    ?>
+        <h2><?php esc_html_e('Page Templates', 'eazly-content-generator'); ?></h2>
+        <div class="eazly-tab-coming-soon">
+            <p><?php esc_html_e('Coming soon! Page Templates management will be available in a future update.', 'eazly-content-generator'); ?></p>
+        </div>
+    <?php
+    }
+
+    protected function render_tab_generate_content()
+    {
+    ?>
+        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+
+        <!-- Notification area for AJAX messages -->
+        <div id="eazly-notification" class="notice" style="display: none;">
+            <p id="eazly-notification-message"></p>
+        </div>
+
+        <div id="eazly-step-one" class="eazly-step">
+            <h2><?php esc_html_e('Step 1: Content Settings', 'eazly-content-generator'); ?></h2>
+            <form id="eazly-form-step-one">
+                <?php wp_nonce_field('eazly_content_nonce', 'eazly_nonce'); ?>
+
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label
+                                for="num_posts"><?php esc_html_e('Number of Posts', 'eazly-content-generator'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number" id="num_posts" name="num_posts" value="3" min="1" max="100"
+                                class="small-text" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="post_types"><?php esc_html_e('Post Types', 'eazly-content-generator'); ?></label>
+                        </th>
+                        <td>
+                            <select id="post_types" name="post_types[]" multiple size="5" required>
+                                <?php
+                                $post_types = get_post_types(array('public' => true), 'objects');
+                                unset($post_types['attachment']);
+                                foreach ($post_types as $post_type) {
+                                    printf(
+                                        '<option value="%s">%s</option>',
+                                        esc_attr($post_type->name),
+                                        esc_html($post_type->label)
+                                    );
+                                }
+                                ?>
+                            </select>
+                            <p class="description">
+                                <?php esc_html_e('Hold Ctrl (or Cmd) to select multiple post types', 'eazly-content-generator'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label
+                                for="title_generation"><?php esc_html_e('Title Generation', 'eazly-content-generator'); ?></label>
+                        </th>
+                        <td>
+                            <select id="title_generation" name="title_generation" required>
+                                <option value="sequential">
+                                    <?php esc_html_e('Sequential (Post1, Post2, ...)', 'eazly-content-generator'); ?>
+                                </option>
+                                <option value="generic">
+                                    <?php esc_html_e('Generic Page Titles', 'eazly-content-generator'); ?>
+                                </option>
+                                <option value="lorem"><?php esc_html_e('Lorem Ipsum Title', 'eazly-content-generator'); ?>
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label
+                                for="content_elements"><?php esc_html_e('Content Elements', 'eazly-content-generator'); ?></label>
+                        </th>
+                        <td>
+                            <select id="content_elements" name="content_elements[]" multiple size="12" required>
+                                <?php
+                                $html_tags = array(
+                                    'h1' => __('Heading 1', 'eazly-content-generator'),
+                                    'h2' => __('Heading 2', 'eazly-content-generator'),
+                                    'h3' => __('Heading 3', 'eazly-content-generator'),
+                                    'h4' => __('Heading 4', 'eazly-content-generator'),
+                                    'h5' => __('Heading 5', 'eazly-content-generator'),
+                                    'h6' => __('Heading 6', 'eazly-content-generator'),
+                                    'p' => __('Paragraph', 'eazly-content-generator'),
+                                    'blockquote' => __('Blockquote', 'eazly-content-generator'),
+                                    'ul' => __('Unordered List', 'eazly-content-generator'),
+                                    'ol' => __('Ordered List', 'eazly-content-generator'),
+                                    'img' => __('Featured Image', 'eazly-content-generator'),
+                                    'hr' => __('Horizontal Rule', 'eazly-content-generator'),
+                                );
+                                foreach ($html_tags as $tag => $label) {
+                                    printf(
+                                        '<option value="%s">%s</option>',
+                                        esc_attr($tag),
+                                        esc_html($label)
+                                    );
+                                }
+                                ?>
+                            </select>
+                            <p class="description">
+                                <?php esc_html_e('Hold Ctrl (or Cmd) to select multiple elements', 'eazly-content-generator'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <p class="submit">
+                    <button type="submit"
+                        class="button button-primary"><?php esc_html_e('Continue to Step 2', 'eazly-content-generator'); ?></button>
+                </p>
+            </form>
+        </div>
+
+        <div id="eazly-step-two" class="eazly-step" style="display: none;">
+            <h2><?php esc_html_e('Step 2: Configure Posts', 'eazly-content-generator'); ?></h2>
+            <div id="eazly-step-two-content"></div>
+        </div>
+
+
+    <?php
+    }
+
+
+    public function ajax_submit_feature()
+    {
+        check_ajax_referer('eazly_content_nonce', 'eazly_nonce');
+
+        $feature_name = sanitize_text_field($_POST['feature_name'] ?? '');
+        $feature_desc = sanitize_textarea_field($_POST['feature_description'] ?? '');
+        $email        = sanitize_email($_POST['user_email'] ?? '');
+
+        $from_email = $email;
+
+        if (empty($from_email)) {
+            $site_url = home_url();
+            $host = parse_url($site_url, PHP_URL_HOST);
+            $from_email = 'no-reply@' . $host;
+        }
+
+        // Example: send an email to plugin author
+        wp_mail('attila.gyorbiro@gmail.com', "New feature request: $feature_name", $feature_desc, [
+            'From' => $from_email
+        ]);
+
+        wp_send_json_success(['message' => __('Feature request submitted. Thank you!', 'eazly-content-generator')]);
     }
 
     /**

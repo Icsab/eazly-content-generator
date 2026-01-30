@@ -226,4 +226,18 @@ jQuery(document).ready(function ($) {
         titleInput.val(newTitle);
         checkTitleAvailability(newTitle, postType, index);
     }
+
+
+     $('#eazly-feature-request-form').on('submit', function(e){
+        e.preventDefault();
+
+        var data = $(this).serialize() + '&action=eazly_submit_feature';
+
+        $.post(eazlyContent.ajaxUrl, data, function(response){
+            $('#eazly-feature-notice')
+                .text(response.data.message)
+                .show();
+        });
+    });
 });
+
